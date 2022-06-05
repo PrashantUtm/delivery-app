@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Delivery } from '../interfaces/delivery';
 
@@ -5,6 +6,8 @@ import { Delivery } from '../interfaces/delivery';
   providedIn: 'root'
 })
 export class DeliveryService {
+
+  baseUrl = 'https://delivery-app-utm-api.herokuapp.com/'
 
   private deliveryList: Delivery[] = [
     {
@@ -63,7 +66,9 @@ export class DeliveryService {
     }
   ];
 
-  constructor() { }
+  constructor(
+    public http: HttpClient
+  ) { }
 
   getDeliveries() {
     return [...this.deliveryList];
@@ -75,5 +80,9 @@ export class DeliveryService {
 
   addDelivery(delivery: Delivery) {
     this.deliveryList = [...this.deliveryList, delivery];
+  }
+
+  getAllParcels() {
+    return this.http['get'](`${this.baseUrl}parcels`);
   }
 }
