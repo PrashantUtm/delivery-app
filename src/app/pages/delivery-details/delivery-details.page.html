@@ -1,12 +1,66 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="delivery-list"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ delivery.customer.name }}</ion-title>
+    <ion-title>Delivery Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title> {{ delivery?.customer.name }} </ion-card-title>
+      <ion-item>
+        <ion-icon name="calendar-outline" class="ion-padding"></ion-icon>
+        {{ delivery?.date | date:'fullDate' }}
+      </ion-item>
+      <ion-item>
+        <ion-icon name="location-outline" class="ion-padding"></ion-icon>
+        {{ delivery?.customer.address }}
+      </ion-item>
+      <ion-item-sliding #phoneNumberSlidingItem  (click)="toggleSlidingCall()">
+        <ion-item>
+          <ion-icon name="call-outline" class="ion-padding"></ion-icon>
+          {{ delivery?.customer.phoneNumber }}
+          <div class="vertical-line"></div>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="success" (click)="callCustomer()" expandable>
+            <ion-icon name="call" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item *ngIf="delivery?.comments">
+        <ion-icon name="information-circle-outline" class="ion-padding"></ion-icon>
+        {{ delivery?.comments }}
+      </ion-item>
+    </ion-card-header>
+    <ion-card-content padding>
+      <ion-list>
+        <ion-item *ngFor="let parcel of delivery?.parcels">
+          <ion-thumbnail slot="start">
+            <ion-img [src]="parcel.imageUrl"></ion-img>
+          </ion-thumbnail>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-label><h1>{{parcel.name}}</h1></ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-label>{{parcel.seller}}</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-label>Rs. {{parcel.price}}</ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

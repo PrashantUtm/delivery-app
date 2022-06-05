@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="delivery-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title>New Delivery</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Add a new delivery</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="deliveryForm" (onSubmit)="addDelivery()">
+        <div formGroupName="customer">
+          <ion-item>
+            <ion-label position="floating">Name</ion-label>
+            <ion-input type="text" formControlName="name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Address</ion-label>
+            <ion-input type="text" formControlName="address"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Phone number</ion-label>
+            <ion-input type="text" formControlName="phoneNumber"></ion-input>
+          </ion-item>
+        </div>
+        <ion-item>
+          <ion-label position="floating">Delivery date</ion-label>
+          <ion-input type="date" formControlName="date" placeholder=""></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Addtional comments</ion-label>
+          <ion-textarea formControlName="comments" placeholder="Anything specific? e.g Where to drop parcel?"></ion-textarea>
+        </ion-item>
+      </form>
+      <ion-button (click)="addDelivery()"><ion-icon name="add" slot="start"></ion-icon>Add</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

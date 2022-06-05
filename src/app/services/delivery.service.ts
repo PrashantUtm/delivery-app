@@ -21,7 +21,8 @@ export class DeliveryService {
           id: 2,
           name: 'Mobile Phone',
           seller: 'Winners',
-          price: 10400.00
+          price: 10400.00,
+          imageUrl:'https://diff.wikimedia.org/wp-content/uploads/2016/06/notification-mockup.jpg'
         },
       ],
       customer: {
@@ -40,13 +41,15 @@ export class DeliveryService {
           id: 4,
           name: 'Television',
           seller: 'Galaxy',
-          price: 1400.00
+          price: 1400.00,
+          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/HD_Television.svg/2048px-HD_Television.svg.png'
         },
         {
           id: 3,
           name: 'Cupboard',
           seller: 'Courts',
-          price: 5400.00
+          price: 5400.00,
+          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Cupboard_%28Beeldenkast%29_MET_DP105750.jpg'
         },
       ],
       customer: {
@@ -55,7 +58,8 @@ export class DeliveryService {
         address: '8, North Road, Village',
         phoneNumber: '+230 5 777 8888'
       },
-      isDelivered: false
+      isDelivered: false,
+      comments: 'Please leave the parcel under the porch'
     }
   ];
 
@@ -67,5 +71,9 @@ export class DeliveryService {
 
   getDelivery(id: string) {
     return [...this.deliveryList].find(d => d.id === id);
+  }
+
+  addDelivery(delivery: Delivery) {
+    this.deliveryList = [...this.deliveryList, delivery];
   }
 }
