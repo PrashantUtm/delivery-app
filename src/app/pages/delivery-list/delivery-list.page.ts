@@ -26,5 +26,4 @@ export class DeliveryListPage implements OnInit {
       this.deliveryList = this.deliveryService.getDeliveries();
     });
   }
-
 }

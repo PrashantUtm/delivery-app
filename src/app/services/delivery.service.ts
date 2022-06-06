@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Delivery } from '../interfaces/delivery';
+import { Customer } from '../interfaces/customer';
 
 @Injectable({
   providedIn: 'root'
@@ -75,14 +76,26 @@ export class DeliveryService {
   }
 
   getDelivery(id: string) {
+    console.log(id);
+    console.log([...this.deliveryList].find(d => d.id === id));
     return [...this.deliveryList].find(d => d.id === id);
   }
 
   addDelivery(delivery: Delivery) {
+    this.setCustomerId(delivery.customer);
+    console.log(delivery);
     this.deliveryList = [...this.deliveryList, delivery];
   }
 
   getAllParcels() {
     return this.http['get'](`${this.baseUrl}parcels`);
+  }
+
+  setCustomerId(customer: Customer) {
+    customer.id = Math.max(...this.deliveryList.map(d => d.customer.id)) + 1;
+  }
+
+  getNewDeliveryId() {
+    return (Math.max(...this.deliveryList.map(d => +d.id)) + 1).toString();
   }
 }

@@ -36,5 +36,4 @@ export class DeliveryDetailsPage implements OnInit {
     else
       this.itemSliding.open('end');
   }
-
 }

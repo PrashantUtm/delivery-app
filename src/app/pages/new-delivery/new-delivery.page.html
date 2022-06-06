@@ -35,7 +35,7 @@
         <ion-item>
           <ion-label position="floating">Parcels</ion-label>
           <ion-select multiple="true" cancelText="cancel" okText="Done" formControlName="parcels">
-            <ion-select-option *ngFor="let parcel of parcels" [value]="parcel.id">{{ parcel.name }}</ion-select-option>
+            <ion-select-option *ngFor="let parcel of parcels" [value]="parcel">{{ parcel.name }}</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item>

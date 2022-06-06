@@ -25,9 +25,10 @@ export class NewDeliveryPage implements OnInit {
     this.deliveryService.getAllParcels().subscribe(result => {
       this.parcels = result as Parcel[];
     });
+    const newId = this.deliveryService.getNewDeliveryId();
 
     this.deliveryForm = this.formBuilder.group({
-      id:['-1'],
+      id:[newId],
       date: [''],
       comments: [''],
       customer: this.formBuilder.group(
@@ -43,15 +44,7 @@ export class NewDeliveryPage implements OnInit {
   }
 
   addDelivery() {
-    const delivery: Delivery = {
-      id: this.deliveryForm.get('id').value,
-      customer: this.deliveryForm.get('customer').value,
-      date: new Date(this.deliveryForm.get('date').value),
-      isDelivered: false,
-      parcels: this.deliveryForm.get('parcels').value
-    } 
-
-    this.deliveryService.addDelivery(delivery);
+    this.deliveryService.addDelivery(this.deliveryForm.value);
     this.deliveryForm.reset();
   }
 }
