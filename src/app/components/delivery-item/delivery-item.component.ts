@@ -18,4 +18,7 @@ export class DeliveryItemComponent implements OnInit {
     return customer.name.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
   }
 
+  callCustomer() {
+    window.open(`tel:${this.delivery.customer.phoneNumber}`);
+  }
 }
