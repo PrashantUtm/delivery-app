@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Delivery } from 'src/app/interfaces/delivery';
 import { Parcel } from 'src/app/interfaces/parcel';
 import { DeliveryService } from 'src/app/services/delivery.service';
@@ -28,23 +28,25 @@ export class NewDeliveryPage implements OnInit {
     const newId = this.deliveryService.getNewDeliveryId();
 
     this.deliveryForm = this.formBuilder.group({
-      id:[newId],
-      date: [''],
+      id:[newId, Validators.required],
+      date: ['', Validators.required],
       comments: [''],
       customer: this.formBuilder.group(
         {
-          id: [-1],
-          name: [''],
-          address: [''],
-          phoneNumber: ['']
+          id: [-1, Validators.required],
+          name: ['', [Validators.required, Validators.minLength(2)]],
+          address: ['', Validators.required],
+          phoneNumber: ['', [Validators.required, Validators.pattern("[0-9 ]{8}")]]
         }
       ),
-      parcels: ['']
+      parcels: ['', Validators.required]
     });
   }
 
   addDelivery() {
-    this.deliveryService.addDelivery(this.deliveryForm.value);
-    this.deliveryForm.reset();
+    if(this.deliveryForm.valid) {
+      this.deliveryService.addDelivery(this.deliveryForm.value);
+      this.deliveryForm.reset();
+    }
   }
 }
