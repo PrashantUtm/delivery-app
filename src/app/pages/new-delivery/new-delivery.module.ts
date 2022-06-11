@@ -8,6 +8,7 @@ import { NewDeliveryPageRoutingModule } from './new-delivery-routing.module';
 
 import { NewDeliveryPage } from './new-delivery.page';
 import { ParcelItemComponent } from 'src/app/components/parcel-item/parcel-item.component';
+import { AddParcelsComponent } from './modals/add-parcels/add-parcels.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { ParcelItemComponent } from 'src/app/components/parcel-item/parcel-item.
     NewDeliveryPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [NewDeliveryPage, ParcelItemComponent]
+  declarations: [NewDeliveryPage, ParcelItemComponent, AddParcelsComponent]
 })
 export class NewDeliveryPageModule {}
