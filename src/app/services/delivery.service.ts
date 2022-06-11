@@ -15,13 +15,15 @@ export class DeliveryService {
           id: 1,
           name: 'Earphones',
           seller: 'Galaxy',
-          price: 400.00
+          price: 400.00,
+          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/48/In-ears-earphones.png'
         },
         {
           id: 2,
           name: 'Mobile Phone',
           seller: 'Winners',
-          price: 10400.00
+          price: 10400.00,
+          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Galaxy_Z_Flip.png/800px-Galaxy_Z_Flip.png'
         },
       ],
       customer: {
@@ -30,6 +32,7 @@ export class DeliveryService {
         address: '7, This Street, City',
         phoneNumber: '+230 5 777 6666'
       },
+      comments: 'Deliver after 6 p.m',
       isDelivered: false
     },
     {
@@ -40,7 +43,8 @@ export class DeliveryService {
           id: 4,
           name: 'Television',
           seller: 'Galaxy',
-          price: 1400.00
+          price: 1400.00,
+          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Oxygen480-devices-video-television_%28modified_and_cropped%29.svg/1200px-Oxygen480-devices-video-television_%28modified_and_cropped%29.svg.png'
         },
         {
           id: 3,
@@ -67,5 +71,9 @@ export class DeliveryService {
 
   getDelivery(id: string) {
     return [...this.deliveryList].find(d => d.id === id);
+  }
+
+  addDelivery(delivery: Delivery) {
+    this.deliveryList = [...this.deliveryList, delivery];
   }
 }

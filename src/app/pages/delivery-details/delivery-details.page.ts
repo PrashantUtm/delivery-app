@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { IonItemSliding } from '@ionic/angular';
 import { Delivery } from 'src/app/interfaces/delivery';
 import { DeliveryService } from 'src/app/services/delivery.service';
 
@@ -11,6 +12,7 @@ import { DeliveryService } from 'src/app/services/delivery.service';
 export class DeliveryDetailsPage implements OnInit {
 
   public delivery: Delivery;
+  @ViewChild('phoneNumberSlidingItem') phoneItemSliding: IonItemSliding;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -24,4 +26,15 @@ export class DeliveryDetailsPage implements OnInit {
     })
   }
 
+  callCustomer() {
+    window.open(`tel:${this.delivery.customer.phoneNumber}`);
+  }
+
+  toggleSlidingCall() {
+    if(this.phoneItemSliding['el'].classList.contains('item-sliding-active-slide')) {
+      this.phoneItemSliding.close();
+    } else {
+      this.phoneItemSliding.open('end');
+    }
+  }
 }
