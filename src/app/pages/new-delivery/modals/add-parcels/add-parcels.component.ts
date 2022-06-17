@@ -9,6 +9,7 @@ import { Parcel } from 'src/app/interfaces/parcel';
 })
 export class AddParcelsComponent implements OnInit {
   @Input() public parcels: Parcel[];
+  @Input() public selectedParcelIds: number[] = [];
   @Output() dismissedEvent = new EventEmitter<number[]>();
 
   constructor(public modalController: ModalController) { }
@@ -16,7 +17,7 @@ export class AddParcelsComponent implements OnInit {
   ngOnInit() {
     if(this.parcels)
     {
-      this.parcels = this.parcels.map(p => ({ ...p, checked: false }));
+      this.parcels = this.parcels.map(p => ({ ...p, checked: this.selectedParcelIds.includes(p.id) }));
     }
   }
 

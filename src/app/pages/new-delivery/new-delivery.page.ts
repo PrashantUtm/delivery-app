@@ -14,6 +14,7 @@ export class NewDeliveryPage implements OnInit {
 
   public deliveryForm: FormGroup;
   public parcels: Parcel[] = [];
+  public selectedParcelIds: number[] = [];
 
   private parcelsEventEmitter: EventEmitter<number[]> = new EventEmitter();
 
@@ -54,6 +55,7 @@ export class NewDeliveryPage implements OnInit {
       component: AddParcelsComponent,
       componentProps: {
         parcels: this.parcels,
+        selectedParcelIds: this.selectedParcelIds,
         dismissedEvent: this.parcelsEventEmitter
       }
     });
@@ -68,6 +70,7 @@ export class NewDeliveryPage implements OnInit {
   }
 
   setParcels(parcelsSelected: number[]) {
+    this.selectedParcelIds = parcelsSelected;
     this.deliveryForm.controls['parcels'].patchValue(this.parcels.filter(p => parcelsSelected.includes(p.id)));
   }
 }
