@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { Parcel } from 'src/app/interfaces/parcel';
 import { DeliveryService } from 'src/app/services/delivery.service';
 import { AddParcelsComponent } from './modals/add-parcels/add-parcels.component';
+import { ShowMapComponent } from './modals/show-map/show-map.component';
 
 @Component({
   selector: 'app-new-delivery',
@@ -50,7 +51,7 @@ export class NewDeliveryPage implements OnInit {
     this.parcelsEventEmitter.subscribe(ids => this.setParcels(ids));
   }
 
-  async presentModal() {
+  async presentNewParcelsModal() {
     const modal = await this.modalController.create({
       component: AddParcelsComponent,
       componentProps: {
@@ -58,6 +59,13 @@ export class NewDeliveryPage implements OnInit {
         selectedParcelIds: this.selectedParcelIds,
         dismissedEvent: this.parcelsEventEmitter
       }
+    });
+    return await modal.present();
+  }
+
+  async presentPickLocationModal() {
+    const modal = await this.modalController.create({
+      component: ShowMapComponent
     });
     return await modal.present();
   }

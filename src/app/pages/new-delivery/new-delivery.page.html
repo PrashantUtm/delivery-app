@@ -28,6 +28,7 @@
             <span slot="error" *ngIf="deliveryForm.controls.customer.controls.address.dirty && deliveryForm.controls.customer.controls.address.invalid">
               Address of the customer is required.
             </span>
+            <ion-button slot="end" color="light" (click)="presentPickLocationModal()"><ion-icon name="location" color="dark"></ion-icon></ion-button>
           </ion-item>
           <ion-item>
             <ion-label position="floating">Phone number</ion-label>
@@ -59,7 +60,7 @@
         </ion-item>
       </form>
       <div class="ion-text-end ion-margin-vertical">
-        <ion-button (click)="presentModal()">Add parcels</ion-button>
+        <ion-button (click)="presentNewParcelsModal()">Add parcels</ion-button>
         <ion-button (click)="addDelivery()"><ion-icon name="add" slot="start"></ion-icon>Add</ion-button>
       </div>
     </ion-card-content>
