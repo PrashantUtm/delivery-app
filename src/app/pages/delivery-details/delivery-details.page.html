@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="delivery-list"></ion-back-button>
     </ion-buttons>
-    <ion-title>Delivery details</ion-title>
+    <ion-title>Delivery Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,19 +13,21 @@
       <ion-card-title> {{ delivery?.customer.name }} </ion-card-title>
       <ion-item>
         <ion-icon name="calendar-outline" class="ion-padding"></ion-icon>
-        {{ delivery?.date | date:'fullDate'}}
+        {{ delivery?.date | date:'fullDate' }}
       </ion-item>
       <ion-item>
         <ion-icon name="location-outline" class="ion-padding"></ion-icon>
-        {{ delivery?.customer.address}}
+        {{ delivery?.customer.address }}
       </ion-item>
-      <ion-item-sliding #phoneNumberSlidingItem (click)="toggleSlidingCall()">
+      <ion-item-sliding #phoneNumberSlidingItem  (click)="toggleSlidingCall()">
         <ion-item>
           <ion-icon name="call-outline" class="ion-padding"></ion-icon>
           {{ delivery?.customer.phoneNumber }}
         </ion-item>
         <ion-item-options side="end">
-          <ion-item-option (click)="callCustomer()" color="success"><ion-icon name="call" slot="icon-only"></ion-icon></ion-item-option>
+          <ion-item-option color="success" (click)="callCustomer()" expandable>
+            <ion-icon name="call" slot="icon-only"></ion-icon>
+          </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
       <ion-item *ngIf="delivery?.comments">
@@ -35,28 +37,7 @@
     </ion-card-header>
     <ion-card-content padding>
       <ion-list>
-        <ion-item *ngFor="let parcel of delivery?.parcels">
-          <ion-thumbnail>
-            <img [src]="parcel.imageUrl">
-          </ion-thumbnail>
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <ion-label><h1>{{ parcel.name }}</h1></ion-label>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <ion-label>{{ parcel.seller }}</ion-label>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <ion-label>Rs. {{ parcel.price }}</ion-label>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
+        <app-parcel-item *ngFor="let parcel of delivery?.parcels" [parcel]="parcel"></app-parcel-item>
       </ion-list>
     </ion-card-content>
   </ion-card>

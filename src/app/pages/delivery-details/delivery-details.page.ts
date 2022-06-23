@@ -12,7 +12,7 @@ import { DeliveryService } from 'src/app/services/delivery.service';
 export class DeliveryDetailsPage implements OnInit {
 
   public delivery: Delivery;
-  @ViewChild('phoneNumberSlidingItem') phoneItemSliding: IonItemSliding;
+  @ViewChild('phoneNumberSlidingItem') itemSliding: IonItemSliding;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,10 +31,9 @@ export class DeliveryDetailsPage implements OnInit {
   }
 
   toggleSlidingCall() {
-    if(this.phoneItemSliding['el'].classList.contains('item-sliding-active-slide')) {
-      this.phoneItemSliding.close();
-    } else {
-      this.phoneItemSliding.open('end');
-    }
+    if (this.itemSliding['el'].classList.contains('item-sliding-active-slide'))
+      this.itemSliding.close();
+    else
+      this.itemSliding.open('end');
   }
 }

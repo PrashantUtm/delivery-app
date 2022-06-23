@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DeliveryListPageRoutingModule } from './delivery-list-routing.module';
 
 import { DeliveryListPage } from './delivery-list.page';
+import { DeliveryItemComponent } from 'src/app/components/delivery-item/delivery-item.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { DeliveryListPage } from './delivery-list.page';
     IonicModule,
     DeliveryListPageRoutingModule
   ],
-  declarations: [DeliveryListPage]
+  declarations: [DeliveryListPage, DeliveryItemComponent]
 })
 export class DeliveryListPageModule {}

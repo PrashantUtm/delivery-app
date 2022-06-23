@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Parcel } from 'src/app/interfaces/parcel';
 import { DeliveryService } from 'src/app/services/delivery.service';
 
 @Component({
@@ -8,36 +9,43 @@ import { DeliveryService } from 'src/app/services/delivery.service';
   styleUrls: ['./new-delivery.page.scss'],
 })
 export class NewDeliveryPage implements OnInit {
+
   public deliveryForm: FormGroup;
+  public parcels: Parcel[] = [];
 
   constructor(
     private deliveryService: DeliveryService,
-    private formBuilder: FormBuilder
-    ) { }
+    public formBuilder: FormBuilder
+  ) { 
+
+  }
 
   ngOnInit() {
+    this.deliveryService.getAllParcels().subscribe(result => {
+      this.parcels = result as Parcel[];
+    });
+    const newId = this.deliveryService.getNewDeliveryId();
+
     this.deliveryForm = this.formBuilder.group({
-      id:['-1', Validators.required],
-      date:['', Validators.required],
-      comments:[''],
-      parcels:[[]],
-      customer: this.formBuilder.group({
-        id:[-1, Validators.required],
-        name:['', [Validators.required, Validators.minLength(2)]],
-        address:['', Validators.required],
-        phoneNumber:['', [Validators.required, Validators.pattern("[0-9 ]{8}")]]
-      })
+      id:[newId, Validators.required],
+      date: ['', Validators.required],
+      comments: [''],
+      customer: this.formBuilder.group(
+        {
+          id: [-1, Validators.required],
+          name: ['', [Validators.required, Validators.minLength(2)]],
+          address: ['', Validators.required],
+          phoneNumber: ['', [Validators.required, Validators.pattern("[0-9 ]{8}")]]
+        }
+      ),
+      parcels: ['', Validators.required]
     });
   }
 
   addDelivery() {
     if(this.deliveryForm.valid) {
-      console.log(this.deliveryForm);
       this.deliveryService.addDelivery(this.deliveryForm.value);
       this.deliveryForm.reset();
-    } else {
-      console.log('Form invalid');
     }
   }
-
 }

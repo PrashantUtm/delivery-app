@@ -18,23 +18,44 @@
           <ion-item>
             <ion-label position="floating">Name</ion-label>
             <ion-input type="text" formControlName="name"></ion-input>
+            <span slot="error" *ngIf="deliveryForm.controls.customer.controls.name.dirty && deliveryForm.controls.customer.controls.name.invalid">
+              Name of the customer is required and must have more than two characters.
+            </span>
           </ion-item>
           <ion-item>
             <ion-label position="floating">Address</ion-label>
             <ion-input type="text" formControlName="address"></ion-input>
+            <span slot="error" *ngIf="deliveryForm.controls.customer.controls.address.dirty && deliveryForm.controls.customer.controls.address.invalid">
+              Address of the customer is required.
+            </span>
           </ion-item>
           <ion-item>
             <ion-label position="floating">Phone number</ion-label>
             <ion-input type="text" formControlName="phoneNumber"></ion-input>
+            <span slot="error" *ngIf="deliveryForm.controls.customer.controls.phoneNumber.dirty && deliveryForm.controls.customer.controls.phoneNumber.invalid">
+              Phone number of the customer is required and must be at least 8 characters long.
+            </span>
           </ion-item>
         </div>
         <ion-item>
           <ion-label position="floating">Delivery date</ion-label>
-          <ion-input type="date" placeholder="" formControlName="date"></ion-input>
+          <ion-input type="date" formControlName="date" placeholder=""></ion-input>
+          <span slot="error" *ngIf="deliveryForm.controls.date.dirty && deliveryForm.controls.date.invalid">
+            The date of delivery is required.
+          </span>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Additional comments</ion-label>
-          <ion-textarea type="text" formControlName="comments" placeholder="Anything specific? e.g Where to drop parcel?"></ion-textarea>
+          <ion-label position="floating">Parcels</ion-label>
+          <ion-select multiple="true" cancelText="cancel" okText="Done" formControlName="parcels">
+            <ion-select-option *ngFor="let parcel of parcels" [value]="parcel">{{ parcel.name }}</ion-select-option>
+          </ion-select>
+          <span slot="error" *ngIf="deliveryForm.controls.parcels && deliveryForm.controls.parcels.invalid">
+            At least one parcel must be selected.
+          </span>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Addtional comments</ion-label>
+          <ion-textarea formControlName="comments" placeholder="Anything specific? e.g Where to drop parcel?"></ion-textarea>
         </ion-item>
       </form>
       <div class="ion-text-end ion-margin-vertical">
@@ -42,5 +63,4 @@
       </div>
     </ion-card-content>
   </ion-card>
-
 </ion-content>

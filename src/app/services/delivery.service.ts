@@ -1,10 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Delivery } from '../interfaces/delivery';
+import { Customer } from '../interfaces/customer';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeliveryService {
+
+  baseUrl = 'https://delivery-app-utm-api.herokuapp.com/'
 
   private deliveryList: Delivery[] = [
     {
@@ -23,7 +27,7 @@ export class DeliveryService {
           name: 'Mobile Phone',
           seller: 'Winners',
           price: 10400.00,
-          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Galaxy_Z_Flip.png/800px-Galaxy_Z_Flip.png'
+          imageUrl:'https://diff.wikimedia.org/wp-content/uploads/2016/06/notification-mockup.jpg'
         },
       ],
       customer: {
@@ -44,13 +48,14 @@ export class DeliveryService {
           name: 'Television',
           seller: 'Galaxy',
           price: 1400.00,
-          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Oxygen480-devices-video-television_%28modified_and_cropped%29.svg/1200px-Oxygen480-devices-video-television_%28modified_and_cropped%29.svg.png'
+          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/HD_Television.svg/2048px-HD_Television.svg.png'
         },
         {
           id: 3,
           name: 'Cupboard',
           seller: 'Courts',
-          price: 5400.00
+          price: 5400.00,
+          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Cupboard_%28Beeldenkast%29_MET_DP105750.jpg'
         },
       ],
       customer: {
@@ -59,21 +64,40 @@ export class DeliveryService {
         address: '8, North Road, Village',
         phoneNumber: '+230 5 777 8888'
       },
-      isDelivered: false
+      isDelivered: false,
+      comments: 'Please leave the parcel under the porch'
     }
   ];
 
-  constructor() { }
+  constructor(
+    public http: HttpClient
+  ) { }
 
   getDeliveries() {
     return [...this.deliveryList];
   }
 
   getDelivery(id: string) {
+    console.log(id);
+    console.log([...this.deliveryList].find(d => d.id === id));
     return [...this.deliveryList].find(d => d.id === id);
   }
 
   addDelivery(delivery: Delivery) {
+    this.setCustomerId(delivery.customer);
+    console.log(delivery);
     this.deliveryList = [...this.deliveryList, delivery];
+  }
+
+  getAllParcels() {
+    return this.http['get'](`${this.baseUrl}parcels`);
+  }
+
+  setCustomerId(customer: Customer) {
+    customer.id = Math.max(...this.deliveryList.map(d => d.customer.id)) + 1;
+  }
+
+  getNewDeliveryId() {
+    return (Math.max(...this.deliveryList.map(d => +d.id)) + 1).toString();
   }
 }

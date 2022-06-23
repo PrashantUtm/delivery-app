@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { NewDeliveryPageRoutingModule } from './new-delivery-routing.module';
 
 import { NewDeliveryPage } from './new-delivery.page';
+import { ParcelItemComponent } from 'src/app/components/parcel-item/parcel-item.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { NewDeliveryPage } from './new-delivery.page';
     NewDeliveryPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [NewDeliveryPage]
+  declarations: [NewDeliveryPage, ParcelItemComponent]
 })
 export class NewDeliveryPageModule {}
