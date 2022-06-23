@@ -14,21 +14,7 @@ export class DeliveryService {
     {
       id: '1',
       date: new Date(2022, 5 ,28),
-      parcels: [
-        {
-          id: 1,
-          name: 'Earphones',
-          seller: 'Galaxy',
-          price: 400.00
-        },
-        {
-          id: 2,
-          name: 'Mobile Phone',
-          seller: 'Winners',
-          price: 10400.00,
-          imageUrl:'https://diff.wikimedia.org/wp-content/uploads/2016/06/notification-mockup.jpg'
-        },
-      ],
+      parcels: [ 1, 2 ],
       customer: {
         id: 1,
         name: 'John Doe',
@@ -40,22 +26,7 @@ export class DeliveryService {
     {
       id: '2',
       date: new Date(2022, 5 ,28),
-      parcels: [
-        {
-          id: 4,
-          name: 'Television',
-          seller: 'Galaxy',
-          price: 1400.00,
-          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/HD_Television.svg/2048px-HD_Television.svg.png'
-        },
-        {
-          id: 3,
-          name: 'Cupboard',
-          seller: 'Courts',
-          price: 5400.00,
-          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Cupboard_%28Beeldenkast%29_MET_DP105750.jpg'
-        },
-      ],
+      parcels: [ 4, 3 ],
       customer: {
         id: 1,
         name: 'Sally Johnson',

@@ -52,6 +52,7 @@ export class NewDeliveryPage implements OnInit {
   }
 
   async presentNewParcelsModal() {
+    this.selectedParcelIds = this.deliveryForm.controls['parcels'].value;
     const modal = await this.modalController.create({
       component: AddParcelsComponent,
       componentProps: {
@@ -78,7 +79,6 @@ export class NewDeliveryPage implements OnInit {
   }
 
   setParcels(parcelsSelected: number[]) {
-    this.selectedParcelIds = parcelsSelected;
-    this.deliveryForm.controls['parcels'].patchValue(this.parcels.filter(p => parcelsSelected.includes(p.id)));
+    this.deliveryForm.controls['parcels'].patchValue(parcelsSelected);
   }
 }
