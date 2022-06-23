@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
-import { Customer } from 'src/app/interfaces/customer';
 import { Delivery } from 'src/app/interfaces/delivery';
 import { DeliveryService } from 'src/app/services/delivery.service';
 import { filter } from 'rxjs/operators';

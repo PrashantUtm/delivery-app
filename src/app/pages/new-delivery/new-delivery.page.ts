@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Delivery } from 'src/app/interfaces/delivery';
 import { Parcel } from 'src/app/interfaces/parcel';
 import { DeliveryService } from 'src/app/services/delivery.service';
 

@@ -19,7 +19,8 @@ export class DeliveryService {
           id: 1,
           name: 'Earphones',
           seller: 'Galaxy',
-          price: 400.00
+          price: 400.00,
+          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/48/In-ears-earphones.png'
         },
         {
           id: 2,
@@ -35,6 +36,7 @@ export class DeliveryService {
         address: '7, This Street, City',
         phoneNumber: '+230 5 777 6666'
       },
+      comments: 'Deliver after 6 p.m',
       isDelivered: false
     },
     {
