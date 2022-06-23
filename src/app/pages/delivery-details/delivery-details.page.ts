@@ -23,11 +23,11 @@ export class DeliveryDetailsPage implements OnInit {
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       if(paramMap.has('deliveryid')) {
-        this.delivery = this.deliveryService.getDelivery(paramMap.get('deliveryid'));
-        this.deliveryService.getAllParcels().subscribe(result => {
-          const allParcels = result as Parcel[];
-          this.parcels = allParcels.filter(p => this.delivery.parcels.includes(p.id));
+        this.deliveryService.getDelivery(paramMap.get('deliveryid')).subscribe(result => {
+          this.delivery = result as Delivery;
+          this.getParcelsForDelivery();
         });
+        
       }
     })
   }
@@ -41,5 +41,12 @@ export class DeliveryDetailsPage implements OnInit {
       this.itemSliding.close();
     else
       this.itemSliding.open('end');
+  }
+
+  getParcelsForDelivery() {
+    this.deliveryService.getAllParcels().subscribe(result => {
+      const allParcels = result as Parcel[];
+      this.parcels = allParcels.filter(p => this.delivery.parcels.includes(p.id));
+    });
   }
 }

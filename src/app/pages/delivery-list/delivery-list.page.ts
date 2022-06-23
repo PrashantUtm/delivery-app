@@ -22,8 +22,12 @@ export class DeliveryListPage implements OnInit {
   ngOnInit() {
     this.router.events.pipe(
       filter((event: RouterEvent) => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.deliveryList = this.deliveryService.getDeliveries();
-    });
+    ).subscribe(() => this.getDeliveries());
+  }
+
+  getDeliveries() {
+    this.deliveryService.getDeliveries().subscribe(result => {
+      this.deliveryList = result as Delivery[];
+    })
   }
 }

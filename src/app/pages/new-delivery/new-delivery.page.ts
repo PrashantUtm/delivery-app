@@ -73,8 +73,9 @@ export class NewDeliveryPage implements OnInit {
 
   addDelivery() {
     if(this.deliveryForm.valid) {
-      this.deliveryService.addDelivery(this.deliveryForm.value);
-      this.deliveryForm.reset();
+      this.deliveryService.addDelivery(this.deliveryForm.value).subscribe(res => {
+        this.deliveryForm.reset();
+      });
     }
   }
 
