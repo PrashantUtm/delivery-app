@@ -39,4 +39,8 @@ export class DeliveryService {
   getNewDeliveryId() {
     return Math.round(Math.random() * 10).toString();
   }
+
+  updateDeliveryStatus(delivery: Delivery) {
+    return this.http['put'](`${this.baseUrl}deliveries/${delivery.id}`, delivery);
+  }
 }

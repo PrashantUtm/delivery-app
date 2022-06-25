@@ -49,4 +49,11 @@ export class DeliveryDetailsPage implements OnInit {
       this.parcels = allParcels.filter(p => this.delivery.parcels.includes(p.id));
     });
   }
+
+  markAsDelivered() {
+    this.delivery.isDelivered = true;
+    this.deliveryService.updateDeliveryStatus(this.delivery).subscribe(res => {
+      this.delivery = res as Delivery;
+    });
+  }
 }
