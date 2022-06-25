@@ -28,8 +28,12 @@ export class NewDeliveryPage implements OnInit {
   }
 
   ngOnInit() {
+
+    this.parcels = JSON.parse(localStorage.getItem('parcels'));
     this.deliveryService.getAllParcels().subscribe(result => {
       this.parcels = result as Parcel[];
+      var offlineStore = window.localStorage;
+      offlineStore.setItem('parcels', JSON.stringify(this.parcels));
     });
     const newId = this.deliveryService.getNewDeliveryId();
 

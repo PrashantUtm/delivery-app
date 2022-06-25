@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IonItemSliding } from '@ionic/angular';
+import { IonImg, IonItemSliding } from '@ionic/angular';
 import { Delivery } from 'src/app/interfaces/delivery';
 import { Parcel } from 'src/app/interfaces/parcel';
 import { DeliveryService } from 'src/app/services/delivery.service';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 @Component({
   selector: 'app-delivery-details',
@@ -15,6 +16,7 @@ export class DeliveryDetailsPage implements OnInit {
   public delivery: Delivery;
   public parcels: Parcel[];
   @ViewChild('phoneNumberSlidingItem') itemSliding: IonItemSliding;
+  @ViewChild('deliveryImage') deliveryImage: IonImg;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -56,4 +58,21 @@ export class DeliveryDetailsPage implements OnInit {
       this.delivery = res as Delivery;
     });
   }
+
+   async takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri
+    });
+  
+    // image.webPath will contain a path that can be set as an image src.
+    // You can access the original file using image.path, which can be
+    // passed to the Filesystem API to read the raw data of the image,
+    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+    var imageUrl = image.webPath;
+  
+    // Can be set to the src of an image now
+    this.deliveryImage.src = imageUrl;
+  };
 }
