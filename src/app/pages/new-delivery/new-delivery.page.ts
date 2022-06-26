@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
 import { Parcel } from 'src/app/interfaces/parcel';
 import { DeliveryService } from 'src/app/services/delivery.service';
+import { AddParcelsComponent } from './modals/add-parcels/add-parcels.component';
 
 @Component({
   selector: 'app-new-delivery',
@@ -13,9 +15,12 @@ export class NewDeliveryPage implements OnInit {
   public deliveryForm: FormGroup;
   public parcels: Parcel[] = [];
 
+  private parcelsEventEmitter: EventEmitter<number[]> = new EventEmitter();
+
   constructor(
     private deliveryService: DeliveryService,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private modalController: ModalController
   ) { 
 
   }
@@ -40,12 +45,32 @@ export class NewDeliveryPage implements OnInit {
       ),
       parcels: ['', Validators.required]
     });
+
+    this.parcelsEventEmitter.subscribe(ids => this.setParcels(ids));
   }
 
   addDelivery() {
     if(this.deliveryForm.valid) {
-      this.deliveryService.addDelivery(this.deliveryForm.value);
-      this.deliveryForm.reset();
+      this.deliveryService.addDelivery(this.deliveryForm.value).subscribe(() => {
+        this.deliveryForm.reset();
+      });
     }
+  }
+
+  async openAddParcelsModal() {
+    const selectedIds = this.deliveryForm.controls['parcels'].value;
+    const modal = await this.modalController.create({
+      component: AddParcelsComponent,
+      componentProps: {
+        parcels: this.parcels,
+        selectedIds: selectedIds,
+        confirmEvent: this.parcelsEventEmitter
+      }
+    });
+    modal.present();
+  }
+
+  setParcels(parcelsIdsSelected: number[]) {
+    this.deliveryForm.controls['parcels'].patchValue(parcelsIdsSelected);
   }
 }

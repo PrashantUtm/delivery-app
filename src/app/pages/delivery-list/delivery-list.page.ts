@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators';
 export class DeliveryListPage implements OnInit {
 
   public deliveryList: Delivery[];
+  public showFilteredList = true;
 
   constructor(
     private deliveryService: DeliveryService,
@@ -22,7 +23,14 @@ export class DeliveryListPage implements OnInit {
     this.router.events.pipe(
       filter((event: RouterEvent) => event instanceof NavigationEnd)
     ).subscribe(() => {
-      this.deliveryList = this.deliveryService.getDeliveries();
+      this.getDeliveries();
+    });
+  }
+
+  getDeliveries() {
+    this.deliveryService.getDeliveries().subscribe(result => {
+      const allDeliveries = result as Delivery[];
+      this.deliveryList = this.showFilteredList ? allDeliveries.filter(d => !d.isDelivered) : allDeliveries;
     });
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonItemSliding } from '@ionic/angular';
 import { Delivery } from 'src/app/interfaces/delivery';
+import { Parcel } from 'src/app/interfaces/parcel';
 import { DeliveryService } from 'src/app/services/delivery.service';
 
 @Component({
@@ -12,6 +13,7 @@ import { DeliveryService } from 'src/app/services/delivery.service';
 export class DeliveryDetailsPage implements OnInit {
 
   public delivery: Delivery;
+  public parcels: Parcel[];
   @ViewChild('phoneNumberSlidingItem') itemSliding: IonItemSliding;
 
   constructor(
@@ -21,7 +23,10 @@ export class DeliveryDetailsPage implements OnInit {
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       if(paramMap.has('deliveryid')) {
-        this.delivery = this.deliveryService.getDelivery(paramMap.get('deliveryid'));
+        this.deliveryService.getDelivery(paramMap.get('deliveryid')).subscribe(result => {
+          this.delivery = result as Delivery;
+          this.getParcelsForDelivery();
+        });
       }
     })
   }
@@ -35,5 +40,19 @@ export class DeliveryDetailsPage implements OnInit {
       this.itemSliding.close();
     else
       this.itemSliding.open('end');
+  }
+
+  getParcelsForDelivery() {
+    this.deliveryService.getAllParcels().subscribe(result => {
+      const allParcels = result as Parcel[];
+      this.parcels = allParcels.filter(p => this.delivery.parcels.includes(p.id));
+    })
+  }
+
+  markAsDelivered() {
+    this.delivery.isDelivered = true;
+    this.deliveryService.updateDeliveryStatus(this.delivery).subscribe(res => {
+      this.delivery = res as Delivery;
+    })
   }
 }

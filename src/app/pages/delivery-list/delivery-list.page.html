@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Deliveries</ion-title>
+    <ion-toggle slot="end" [(ngModel)]="showFilteredList" (ionChange)="getDeliveries()"></ion-toggle>
   </ion-toolbar>
 </ion-header>
 

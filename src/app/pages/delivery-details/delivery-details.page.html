@@ -37,8 +37,9 @@
     </ion-card-header>
     <ion-card-content padding>
       <ion-list>
-        <app-parcel-item *ngFor="let parcel of delivery?.parcels" [parcel]="parcel"></app-parcel-item>
+        <app-parcel-item *ngFor="let parcel of parcels" [parcel]="parcel"></app-parcel-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
+  <ion-button class="footer" color="success" (click)="markAsDelivered()" [disabled]="delivery?.isDelivered">Mark as delivered</ion-button>
 </ion-content>
