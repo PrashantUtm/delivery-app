@@ -42,9 +42,9 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
-    <ion-button (click)="takePicture()">Take a picture</ion-button>
-    <ion-thumbnail>
+  <ion-card class="ion-padding picture-card">
+    <ion-card-header>Take a picture of the delivery</ion-card-header>
+    <ion-thumbnail (click)="takePicture()">
       <ion-img #deliveryImage></ion-img>
     </ion-thumbnail>
   </ion-card>
