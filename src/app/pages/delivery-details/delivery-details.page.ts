@@ -5,6 +5,7 @@ import { Delivery } from 'src/app/interfaces/delivery';
 import { Parcel } from 'src/app/interfaces/parcel';
 import { DeliveryService } from 'src/app/services/delivery.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { CacheKey, CachingService } from 'src/app/services/caching.service';
 
 @Component({
   selector: 'app-delivery-details',
@@ -20,11 +21,17 @@ export class DeliveryDetailsPage implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private cachingService: CachingService,
     private deliveryService: DeliveryService) { }
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(paramMap => {
+    this.activatedRoute.paramMap.subscribe(async paramMap => {
       if(paramMap.has('deliveryid')) {
+        var deliveries = await this.cachingService.get<Delivery[]>(CacheKey.Deliveries);
+        if(deliveries) {
+          this.delivery = deliveries.find(d => d.id === paramMap.get('deliveryid'));
+          this.getParcelsForDelivery();
+        }
         this.deliveryService.getDelivery(paramMap.get('deliveryid')).subscribe(result => {
           this.delivery = result as Delivery;
           this.getParcelsForDelivery();

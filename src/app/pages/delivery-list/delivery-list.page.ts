@@ -5,6 +5,7 @@ import { Delivery } from 'src/app/interfaces/delivery';
 import { DeliveryService } from 'src/app/services/delivery.service';
 import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { CacheKey, CachingService } from 'src/app/services/caching.service';
 
 @Component({
   selector: 'app-delivery-list',
@@ -17,6 +18,7 @@ export class DeliveryListPage implements OnInit {
   public showFilteredList: true;
 
   constructor(
+    private cachingService: CachingService,
     private deliveryService: DeliveryService,
     private router: Router
     ) { }
@@ -27,10 +29,21 @@ export class DeliveryListPage implements OnInit {
     ).subscribe(() => this.getDeliveries());
   }
 
-  public getDeliveries() {
+  public async getDeliveries() {
+
+    const deliveries = await this.cachingService.get<Delivery[]>(CacheKey.Deliveries);
+    if(deliveries) {
+      this.setDeliveryList(deliveries);
+    }
+
     this.deliveryService.getDeliveries().subscribe(result => {
       const allDeliveries = result as Delivery[];
-      this.deliveryList = this.showFilteredList ? allDeliveries.filter(d => !d.isDelivered) : allDeliveries;
+      this.cachingService.set(CacheKey.Deliveries, allDeliveries);
+      this.setDeliveryList(allDeliveries);
     })
+  }
+
+  private setDeliveryList(allDeliveries: Delivery[]) : void {
+    this.deliveryList = this.showFilteredList ? allDeliveries.filter(d => !d.isDelivered) : allDeliveries;
   }
 }
