@@ -41,5 +41,15 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+  <ion-card class="upload-image-card">
+    <ion-card-header>
+      <ion-card-title>Take a picture of the delivery</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-thumbnail (click)="uploadImage()">
+        <ion-img #deliveryImage></ion-img>
+      </ion-thumbnail>
+    </ion-card-content>
+  </ion-card>
   <ion-button class="footer" color="success" (click)="markAsDelivered()" [disabled]="delivery?.isDelivered">Mark as delivered</ion-button>
 </ion-content>
