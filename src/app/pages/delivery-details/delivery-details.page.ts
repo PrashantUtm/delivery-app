@@ -4,6 +4,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 import { IonImg, IonItemSliding } from '@ionic/angular';
 import { Delivery } from 'src/app/interfaces/delivery';
 import { Parcel } from 'src/app/interfaces/parcel';
+import { CacheKey, CachingService } from 'src/app/services/caching.service';
 import { DeliveryService } from 'src/app/services/delivery.service';
 
 @Component({
@@ -20,11 +21,17 @@ export class DeliveryDetailsPage implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private cachingService: CachingService,
     private deliveryService: DeliveryService) { }
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(paramMap => {
+    this.activatedRoute.paramMap.subscribe(async paramMap => {
       if(paramMap.has('deliveryid')) {
+        const deliveries = await this.cachingService.get<Delivery[]>(CacheKey.Deliveries);
+        if(deliveries) {
+          this.delivery = deliveries.find(d => d.id === paramMap.get('deliveryid'));
+        }
+
         this.deliveryService.getDelivery(paramMap.get('deliveryid')).subscribe(result => {
           this.delivery = result as Delivery;
           this.getParcelsForDelivery();

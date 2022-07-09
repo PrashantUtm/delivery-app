@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NativeGeocoderOptions, NativeGeocoder, NativeGeocoderResult } from '@awesome-cordova-plugins/native-geocoder/ngx';
+import { Geolocation } from '@capacitor/geolocation';
 import { ModalController } from '@ionic/angular';
 import { Parcel } from 'src/app/interfaces/parcel';
 import { DeliveryService } from 'src/app/services/delivery.service';
@@ -20,14 +22,18 @@ export class NewDeliveryPage implements OnInit {
   constructor(
     private deliveryService: DeliveryService,
     public formBuilder: FormBuilder,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private nativeGeocoder: NativeGeocoder
   ) { 
 
   }
 
   ngOnInit() {
+    this.parcels = JSON.parse(localStorage.getItem('parcels'));
     this.deliveryService.getAllParcels().subscribe(result => {
       this.parcels = result as Parcel[];
+      var offlineStore = window.localStorage;
+      offlineStore.setItem('parcels', JSON.stringify(result));
     });
     const newId = this.deliveryService.getNewDeliveryId();
 
@@ -73,4 +79,27 @@ export class NewDeliveryPage implements OnInit {
   setParcels(parcelsIdsSelected: number[]) {
     this.deliveryForm.controls['parcels'].patchValue(parcelsIdsSelected);
   }
+
+  public async setAddressToCurrentLocation(): Promise<void> {
+
+    const options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 5
+    };
+
+    const coordinates = await Geolocation.getCurrentPosition();
+
+    console.log('Current position:', coordinates);
+
+    this.nativeGeocoder.reverseGeocode(coordinates.coords.latitude, coordinates.coords.longitude, options)
+    .then((result: NativeGeocoderResult[]) => {
+      const firstResult = result[0];
+      console.log(firstResult);
+      this.deliveryForm.patchValue({
+        customer: {
+          address: `${firstResult.locality} ${firstResult.subLocality} ${firstResult.countryName}, ${firstResult.postalCode}`
+        }
+      })
+    }).catch((error: any) => console.log(error));
+  } 
 }
